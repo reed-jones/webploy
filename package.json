@@ -1,0 +1,20 @@
+{
+  "name": "webploy",
+  "version": "1.0.0",
+  "description": "A cunning plan to autodeploy via webhooks",
+  "main": "index.js",
+  "author": "Reed Jones <reedjones@reedjones.com>",
+  "license": "ISC",
+  "scripts": {
+    "serve": "nodemon index.js --exec babel-node"
+  },
+  "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "dotenv": "^5.0.1",
+    "execa": "^0.10.0",
+    "express": "^4.16.3",
+    "nodemon": "^1.17.3"
+  }
+}
