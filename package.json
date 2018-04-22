@@ -6,7 +6,7 @@
   "author": "Reed Jones <reedjones@reedjones.com>",
   "license": "ISC",
   "scripts": {
-    "start": "nodemon index.js --exec babel-node"
+    "start": "nodemon server/index.js --exec babel-node"
   },
   "dependencies": {
     "babel-cli": "^6.26.0",
