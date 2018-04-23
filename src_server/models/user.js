@@ -7,13 +7,17 @@ export default (sequelize, DataTypes) => {
     email: {
       type: DataTypes.STRING,
       unique: true,
+      validate: {
+        isEmail: true,
+      },
     },
     password: DataTypes.STRING,
+    verified: DataTypes.BOOLEAN,
   })
 
-  // User.associate = models => {
-  //   models.User.hasMany(models.Site)
-  // }
+  User.associate = models => {
+    models.User.hasMany(models.Site)
+  }
 
   return User
 }

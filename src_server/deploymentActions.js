@@ -8,11 +8,10 @@ const {
 } = process.env
 
 // run full deploy script
-export const deploy = async ({ baseUrl, user, project }) => {
+export const deploy = async ({ clone_url, project }) => {
   // get extra details from package.json after pull
   let config = {
-    baseUrl,
-    user,
+    clone_url,
     project,
     webRoot: WEB_ROOT,
     tempOutputDir: TEMP_OUTPUT_DIR,
@@ -42,26 +41,25 @@ export const deploy = async ({ baseUrl, user, project }) => {
 }
 
 export const cloneOrPull = async ({
-  baseUrl,
+  clone_url,
   tempOutputDir,
   webRoot,
-  user,
   project,
 }) => {
   let project_already_exists = fs.existsSync(`${tempOutputDir}/${project}`)
-
+  console.log(`${tempOutputDir}/${project}`)
   try {
     if (project_already_exists) {
-      await pullProject({ tempOutputDir, webRoot, user, project })
+      await pullProject({ tempOutputDir, webRoot, project })
     } else {
-      await cloneProject({ tempOutputDir, baseUrl, webRoot, user, project })
+      await cloneProject({ tempOutputDir, clone_url, webRoot, project })
     }
   } catch (err) {
     throw err
   }
 }
 
-export const pullProject = async ({ tempOutputDir, user, project }) => {
+export const pullProject = async ({ tempOutputDir, project }) => {
   console.log('Pulling Project')
   try {
     await execa.shell(`cd ${tempOutputDir}/${project} && git pull`)
@@ -72,17 +70,11 @@ export const pullProject = async ({ tempOutputDir, user, project }) => {
   }
 }
 
-export const cloneProject = async ({
-  baseUrl,
-  tempOutputDir,
-  user,
-  project,
-}) => {
+export const cloneProject = async ({ clone_url, tempOutputDir, project }) => {
   console.log('Cloning Project')
+  // console.log(project)
   try {
-    await execa.shell(
-      `git clone ${baseUrl}/${user}/${project} ${tempOutputDir}/${project}`,
-    )
+    await execa(`git`, [`clone`, clone_url, `${tempOutputDir}/${project}`])
     console.log('Project cloned successfully')
   } catch (err) {
     console.log('could not clone project')
